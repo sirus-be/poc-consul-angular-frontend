@@ -1,27 +1,28 @@
-# SirusPocConsulFrontend
+# Consul Frontend sample
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
+## Info
 
-## Development server
+In deze POC wordt een angular frontend gestart op basis van config values uit kv store van Consul.
+Als er config values veranderen in Consul, dan herstart nginx.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Commands
 
-## Code scaffolding
+Start een consul agent (lokaal)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+	.\consul.exe agent -dev -bind='127.0.0.1'
 
-## Build
+Steek waarden in de key value store
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+	.\consul.exe kv put dev/Sirus.Poc.Consul.Frontend.Angular/title HiFromConsul
 
-## Running unit tests
+Build image
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    ng build --prod
+    docker build -t consulfrontend .
+    docker run -p 3276:80 consulfrontend
 
-## Running end-to-end tests
+## Test
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- De titel wordt door angular geladen on startup (http://localhost:3276).
+- Bij wijziging van de kv, dan wordt nginx herladen
+- Indien de agent crashed na het starten van het process, dan blijft het process draaien.

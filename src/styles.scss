@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://cdn.antwerpen.be/core_branding_scss/3.0.1/main.min.css');
+@import url('https://cdn.antwerpen.be/core_flexboxgrid_scss/1.0.1/flexboxgrid.min.css');
+
+main {
+    flex: 1 1 auto;
+    min-height: 50vh;
+}
